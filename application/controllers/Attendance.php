@@ -10,7 +10,10 @@ class Attendance extends CI_Controller {
 		$this->data = [];
 	}
 
+
+
 	public function is_timein() {
+		$this->x();
 		$this->db->where('user_id', $this->user);
 		$this->db->where('timein >', date('Y-m-d 00:00'));
 		$this->db->where('timeout', NULL);

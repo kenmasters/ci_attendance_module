@@ -39,7 +39,6 @@ class Attendance_m extends CI_Model {
 		$this->db->update('attendance', $data, ['id' => $id]);
 	}
 
-
 	public function get_timein () {
 		$this->db->order_by('id', 'DESC');;
 		$this->db->where('user_id', $this->user);
@@ -47,5 +46,7 @@ class Attendance_m extends CI_Model {
 		$this->db->where('timein <', date('Y-m-d 23:59'));
 		return $this->db->get($this->table)->row();
 	}
+
+	public function breaks () {}
 
 }
