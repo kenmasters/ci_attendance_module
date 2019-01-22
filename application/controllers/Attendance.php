@@ -8,12 +8,16 @@ class Attendance extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->data = [];
+
+		$this->load->model('attendance_main');
+
+		$this->attendance_main->setUser(1)->in();
 	}
 
 
 
 	public function is_timein() {
-		$this->x();
+		
 		$this->db->where('user_id', $this->user);
 		$this->db->where('timein >', date('Y-m-d 00:00'));
 		$this->db->where('timeout', NULL);
