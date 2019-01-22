@@ -58,3 +58,4 @@ $route['attendance/timeout'] = 'attendance/time_out';
 $route['attendance/add-break'] = 'attendance/start_break_time';
 $route['attendance/end-break'] = 'attendance/end_break_time';
 
+
