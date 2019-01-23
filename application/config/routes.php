@@ -53,9 +53,9 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['attendance/timein'] = 'attendance/time_in';
-$route['attendance/timeout'] = 'attendance/time_out';
-$route['attendance/add-break'] = 'attendance/start_break_time';
-$route['attendance/end-break'] = 'attendance/end_break_time';
+$route['attendance/timein'] = 'attendance/in';
+$route['attendance/timeout'] = 'attendance/out';
+$route['attendance/addbreak'] = 'attendance/start_break_time';
+$route['attendance/endbreak'] = 'attendance/end_break_time';
 
 

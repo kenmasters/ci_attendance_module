@@ -64,7 +64,7 @@
                 <?php 
                 if (!$on_break) { ?>
                   <?php 
-                  echo form_open('attendance/add-break'); 
+                  echo form_open('attendance/addbreak'); 
                   echo form_hidden('attendance_id', $attendance_current->id); 
 
                   ?>
@@ -85,7 +85,7 @@
                   <div class="col-sm-12">
                     <p>Status: On break (<?=$break_type?>)</p>
                     <p>Started: <?=$break_start_time?></p>
-                    <?php echo form_open('attendance/end-break'); ?>
+                    <?php echo form_open('attendance/endbreak'); ?>
                     <?php echo form_hidden('id', $break_id); ?>
                     <?php echo form_submit('end-break', 'End Break Time', ['class'=>'btn btn-default']); ?>
                     <?php echo form_close(); ?>
@@ -94,10 +94,6 @@
                 <?php
                 }
                 ?>
-                
-
-                
-              
             </div>
 
             <div class="table-responsive">
@@ -128,10 +124,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
-   
-
-    
 </div>

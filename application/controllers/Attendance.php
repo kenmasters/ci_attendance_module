@@ -3,16 +3,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Attendance extends CI_Controller {
 
-	public $user = 2; // user static ID
-
+	// user static ID
+	private $user = 2;
+	private $data = [];
 
 	public function __construct() {
 		parent::__construct();
-		$this->data = [];
 		$this->load->model('attendance_main');
 	}
 
-	public function time_in() {
+	public function index() {
+		$this->load->view('attendance/common/header');
+		$this->load->view('attendance/common/footer');
+	}
+
+	public function in() {
 		if ($this->attendance_main->setUser($this->user)->is_timein())
 			redirect('attendance/timeout');
 
@@ -24,13 +29,13 @@ class Attendance extends CI_Controller {
 			redirect('attendance/timeout');
 		}
 
-		$this->load->view('layouts/header');
-		$this->load->view('timein', $this->data);
-		$this->load->view('layouts/footer');
+		$this->load->view('attendance/common/header');
+		$this->load->view('attendance/timein', $this->data);
+		$this->load->view('attendance/common/footer');
 
 	}
 	
-	public function time_out() {
+	public function out() {
 
 		if (!$this->attendance_main->setUser($this->user)->is_timein())
 			redirect('attendance/timein');
@@ -69,9 +74,9 @@ class Attendance extends CI_Controller {
 			redirect('attendance/timein');
 		}
 
-		$this->load->view('layouts/header');
-		$this->load->view('timeout', $this->data);
-		$this->load->view('layouts/footer');
+		$this->load->view('attendance/common/header');
+		$this->load->view('attendance/timeout', $this->data);
+		$this->load->view('attendance/common/footer');
 	
 	}
 
