@@ -3,36 +3,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Attendance extends CI_Controller {
 
-	private $user = 1;
+	public $user = 2; // user static ID
+
 
 	public function __construct() {
 		parent::__construct();
 		$this->data = [];
-
 		$this->load->model('attendance_main');
-
-		$this->attendance_main->setUser(1)->in();
-	}
-
-
-
-	public function is_timein() {
-		
-		$this->db->where('user_id', $this->user);
-		$this->db->where('timein >', date('Y-m-d 00:00'));
-		$this->db->where('timeout', NULL);
-		$query = $this->db->get('attendance');
-		return (bool) $query->num_rows();
 	}
 
 	public function time_in() {
-		if ($this->is_timein()) redirect('attendance/timeout');
+		if ($this->attendance_main->setUser($this->user)->is_timein())
+			redirect('attendance/timeout');
 
 		$this->data['current_date'] = date('D, d M Y');
 		$this->data['current_time'] = date('H:i');
 		
 		if ($this->input->post('timein')) {
-			$this->attendance_m->insert();
+			$this->attendance_main->setUser($this->user)->in();
 			redirect('attendance/timeout');
 		}
 
@@ -44,22 +32,27 @@ class Attendance extends CI_Controller {
 	
 	public function time_out() {
 
-		if (!$this->is_timein()) redirect('attendance/timein');
+		if (!$this->attendance_main->setUser($this->user)->is_timein())
+			redirect('attendance/timein');
 
 		$this->data['current_date'] = date('D, d M Y');
 		$this->data['current_time'] = date('H:i');
 
+		$attendance_current = $this->attendance_model->current($this->user);
+		
+		$this->data['attendance_current'] = $attendance_current;
+
 		$todays_break = $this->db
+						->where('attendance_id', $attendance_current->id)
 						->where('break_end_time > ', '00:00')
 						->order_by('id', 'DESC')
 						->get('attendance_meta')->result();
 
 		$active_break = $this->db
+						->where('attendance_id', $attendance_current->id)
 						->where('break_end_time', '00:00')
 						->order_by('id', 'DESC')
 						->get('attendance_meta')->row();
-		
-		$this->data['dtr'] = $this->attendance_m->get_timein();
 		
 		$this->data['todays_break'] = $todays_break;
 		$this->data['on_break'] = false;
@@ -80,16 +73,15 @@ class Attendance extends CI_Controller {
 		$this->load->view('timeout', $this->data);
 		$this->load->view('layouts/footer');
 	
-		
 	}
 
 	public function start_break_time() {
-		$this->attendancemeta_m->start_break_time();
+		$this->attendance_main->break_start();
 		redirect($this->agent->referrer());
 	}
 
 	public function end_break_time() {
-		$this->attendancemeta_m->end_break_time();
+		$this->attendance_main->break_end();
 		redirect($this->agent->referrer());
 		
 	}

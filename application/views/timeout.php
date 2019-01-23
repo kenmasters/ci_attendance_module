@@ -7,18 +7,18 @@
           <div class="panel-body">
         
             <?php echo form_open('attendance/timeout', ['class'=>'form-horizontal']); ?>
-            <?php echo form_hidden('attendance_id', $dtr->id); ?>
+            <?php echo form_hidden('attendance_id', $attendance_current->id); ?>
             <div class="form-group">
               <label class="control-label col-sm-2" for="email">Time In</label>
               <div class="col-sm-10">
-                <label class="control-label"><?php echo nice_date($dtr->timein, 'D, d M Y H:i'); ?></label>
+                <label class="control-label"><?php echo nice_date($attendance_current->timein, 'D, d M Y H:i'); ?></label>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="email">Time In Note</label>
               <div class="col-sm-10">
-                <label class="control-label"><?php echo $dtr->timein_note; ?></label>
+                <label class="control-label"><?php echo $attendance_current->timein_note; ?></label>
               </div>
             </div>
 
@@ -65,7 +65,7 @@
                 if (!$on_break) { ?>
                   <?php 
                   echo form_open('attendance/add-break'); 
-                  echo form_hidden('attendance_id', $dtr->id); 
+                  echo form_hidden('attendance_id', $attendance_current->id); 
 
                   ?>
                   <div class="col-sm-8">
