@@ -70,9 +70,9 @@
                   ?>
                   <div class="col-sm-8">
                   <select name="type" id="" class="form-control">
-                    <option value="coffee">Coffee</option>
-                    <option value="launch">Launch</option>
-                    <option value="bathroom">Bathroom</option>
+                    <option value="1">Launch</option>
+                    <option value="2">Coffee</option>
+                    <option value="3">Bathroom</option>
                   </select>
                   </div>
                   <div class="col-sm-4">
@@ -112,7 +112,7 @@
                         <tr>
                           <td><?=$today->break_start_time?></td>
                           <td><?=$today->break_end_time?></td>
-                          <td><?=$today->type?></td>
+                          <td><?=$today->type_id?></td>
                         </tr>
                 <?php 
                       } 

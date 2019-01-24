@@ -53,9 +53,12 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+
+$route['attendance/user/(:num)'] = 'attendance/user/$1';
+
 $route['attendance/timein'] = 'attendance/in';
 $route['attendance/timeout'] = 'attendance/out';
-$route['attendance/addbreak'] = 'attendance/start_break_time';
-$route['attendance/endbreak'] = 'attendance/end_break_time';
+$route['attendance/addbreak'] = 'attendance/breakStart';
+$route['attendance/endbreak'] = 'attendance/breakEnd';
 
 

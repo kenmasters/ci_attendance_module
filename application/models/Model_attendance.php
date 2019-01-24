@@ -1,16 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Attendance_main extends CI_Model {
+class Model_attendance extends CI_Model {
 	
-	private $user = null;
+	private $user_id = null;
 
 	public function __construct() {
 		parent::__construct();
+		$this->load->model('model_attendance_shifts', 'model_shifts');
+		$this->load->model('model_attendance_details', 'model_shift_details');
 	}
 
 	public function setUser($id) {
-		$this->user = $id;
+		$this->user_id = $id;
 		return $this;
 	}
 
@@ -21,12 +23,13 @@ class Attendance_main extends CI_Model {
 		$timein_note = $this->input->post('timein_note');
 		
 		$data = [
-			'user_id' => $this->user,
+			'user_id' => $this->user_id,
 			'timein' => $datetime,
 			'timein_note' => $timein_note,
+			'loggedin' => 1,
 		];
 		
-		$this->attendance_model->insert($data);
+		$this->model_shifts->insert($data);
 	}
 
 	public function out() {
@@ -39,28 +42,26 @@ class Attendance_main extends CI_Model {
 		$data = [
 			'timeout_note' => $timeout_note,
 			'timeout' => $datetime,
+			'loggedin' => 0,
 		];
-		$this->attendance_model->update($id, $data);
+		$this->model_shifts->update($id, $data);
 	}
 
 	public function is_timein() {
-
-		$this->db->where('user_id', $this->user);
-		$this->db->where('timein >', date('Y-m-d 00:00'));
-		$this->db->where('timeout', NULL);
-		$query = $this->db->get('attendance');
-		return (bool) $query->num_rows();
+		return $this->model_shifts->current($this->user_id);	 
+		echo 1;
 	}
 
 	public function break_start() {
 		$att_id = $this->input->post('attendance_id');
+		$type_id = $this->input->post('type');
 		$data = [
 			'attendance_id' => $att_id,
-			'type' => $this->input->post('type'),
+			'type_id' => $type_id,
 			'break_start_time' => date('H:i'),
 		];
 
-		$this->attendancemeta_model->insert($att_id, $data);
+		$this->model_shift_details->insert($att_id, $data);
 	}
 
 	public function break_end() {
@@ -69,7 +70,15 @@ class Attendance_main extends CI_Model {
 			'break_end_time' => date('H:i'),
 		];
 
-		$this->attendancemeta_model->update($id, $data);
+		$this->model_shift_details->update($id, $data);
+	}
+
+	public function get() {
+		return $this->model_shifts->search(['user_id'=>$this->user_id])->get();
+	}
+
+	public function current() {
+		return $this->model_shifts->current($this->user_id);
 	}
 
 	

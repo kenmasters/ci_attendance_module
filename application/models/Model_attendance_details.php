@@ -4,9 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * Attendance Model
  */
-class Attendancemeta_model extends CI_Model {
+class Model_attendance_details extends CI_Model {
 
-	private $table = 'attendance_meta';
+	private $table = 'attendance_details';
 	private $filters = [];
 
 	public function search($search) {

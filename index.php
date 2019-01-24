@@ -35,7 +35,7 @@
  * @since	Version 1.0.0
  * @filesource
  */
-date_default_timezone_set('America/New_York');
+date_default_timezone_set('Asia/Manila');
 
 /*
  *---------------------------------------------------------------
