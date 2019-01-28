@@ -29,8 +29,7 @@
                 $timeout_notes = $v->timeout_note;
                 $duration_in_hours = (strtotime($v->timeout) - strtotime($v->timein)) / 3600;
                 $duration_in_hours = round($duration_in_hours, 2);
-                $disabled = !isset($attendance_details) && !$attendance_details?'disabled':'1';
-                echo $disabled;
+                
 
                 echo "<tr>
                         <td>$timein</td>
@@ -38,7 +37,7 @@
                         <td>$timeout</td>
                         <td>$timeout_notes</td>
                         <td>$duration_in_hours</td>
-                        <td><a class='btn btn-default btn-sm ".$disabled."' href='?attendance=".$v->id."'>View Details</a></td>
+                        <td><a class='btn btn-default btn-sm' href='?attendance=".$v->id."'>View Details</a></td>
                       </tr>";
               }
 
