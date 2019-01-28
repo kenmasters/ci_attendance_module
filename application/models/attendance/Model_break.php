@@ -38,7 +38,7 @@ class Model_break extends CI_Model {
 	public function update($id, $data) {
 		$this->db->where('id', $id);
 		$this->db->update($this->table, $data);
-		return TRUE;
+		return true;
 	}
 
 	public function delete($id) {
@@ -52,12 +52,12 @@ class Model_break extends CI_Model {
 		$this->db->where('id', $id);
 		$query = $this->db->get($this->table);
 		if ($query->num_rows() < 1)
-			return FALSE; 
+			return false; 
 		return $query->row();
 	}
 
 	public function get_active() {
-		$this->db->where('status', TRUE);
+		$this->db->where('status', true);
 		$query = $this->db->get($this->table);
 		return $query->result();
 	}

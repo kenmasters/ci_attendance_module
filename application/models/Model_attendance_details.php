@@ -31,8 +31,8 @@ class Model_attendance_details extends CI_Model {
 
 	public function update($id, $data) {
 		$this->db->where('id', $id);
-		if (!$this->db->update($this->table, $data)) return FALSE;
-		return TRUE;
+		if (!$this->db->update($this->table, $data)) return false;
+		return true;
 
 	}
 	
@@ -43,7 +43,7 @@ class Model_attendance_details extends CI_Model {
 	}
 
 	// Get current break for a specific attendance
-	// Return obj current break or FALSE if no active break 
+	// Return obj current break or false if no active break 
 	public function current($att_id) {
 		$this->db->select('
 			details.*,
@@ -56,7 +56,7 @@ class Model_attendance_details extends CI_Model {
 		$this->db->order_by('details.id', 'ASC');
 		$query = $this->db->get();
 		if ($query->num_rows() < 1)
-			return FALSE;
+			return false;
 		return $query->row();
 	}
 }

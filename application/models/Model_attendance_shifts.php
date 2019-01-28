@@ -52,12 +52,8 @@ class Model_attendance_shifts extends CI_Model {
 		return true;
 	}
 
-	public function byuser($id) {
-		return $this->search(['user_id'=>$id, 'loggedin'=>0])->get();
-	}
-
 	public function get_shift_details($att_id) {
-		$res = FALSE;
+		$res = false;
 		$this->db->select('
 			details.*,
 			break.label
@@ -68,9 +64,8 @@ class Model_attendance_shifts extends CI_Model {
 		$this->db->order_by('details.id', 'ASC');
 		$query = $this->db->get();
 		if ($query->num_rows() < 1) {
-			return FALSE;	
+			return false;	
 		}
-		
 		return $query->result();
 	}
 
