@@ -16,39 +16,27 @@ class Model_attendance extends CI_Model {
 		return $this;
 	}
 
-	public function in() {
-		$date = $this->input->post('date');
-		$time = $this->input->post('time');
-		$datetime = nice_date($date, 'Y-m-d').' '.$time;
-		$timein_note = $this->input->post('timein_note');
-		
+	public function in($notes="") {
+		$datetime = date('Y-m-d H:i', now());
 		$data = [
 			'user_id' => $this->user_id,
 			'timein' => $datetime,
-			'timein_note' => $timein_note,
+			'timein_note' => $notes,
 			'loggedin' => 1,
 		];
 		
 		$this->model_shifts->insert($data);
 	}
 
-	public function out() {
-		$id = $this->input->post('attendance_id');
-		$date = $this->input->post('date');
-		$time = $this->input->post('time');
-		$datetime = nice_date($date, 'Y-m-d').' '.$time;
-		$timeout_note = $this->input->post('timeout_note');
-
+	public function out($notes="") {
+		$att_id = $this->current()->id;
+		$datetime = date('Y-m-d H:i', now());
 		$data = [
-			'timeout_note' => $timeout_note,
+			'timeout_note' => $notes,
 			'timeout' => $datetime,
 			'loggedin' => 0,
 		];
-		$this->model_shifts->update($id, $data);
-	}
-
-	public function is_timein() {
-		return $this->model_shifts->current($this->user_id);	 
+		$this->model_shifts->update($att_id, $data);
 	}
 
 	public function doAdd($type_id, $notes='') {
@@ -60,7 +48,7 @@ class Model_attendance extends CI_Model {
 			'start_note' => $notes,
 			'status' => 1
 		];
-		$this->model_shift_details->insert($att_id, $data);
+		return $this->model_shift_details->insert($att_id, $data);
 	}
 
 	public function doEnd($id, $notes='') {
@@ -69,7 +57,7 @@ class Model_attendance extends CI_Model {
 			'end_note' => $notes,
 			'status' => 0
 		];
-		$this->model_shift_details->update($id, $data);
+		return $this->model_shift_details->update($id, $data);
 	}
 
 	public function get() {
@@ -82,6 +70,10 @@ class Model_attendance extends CI_Model {
 
 	public function get_current_shift_details() {
 		$att_id = $this->current()->id;
+		return $this->model_shifts->get_shift_details($att_id);
+	}
+
+	public function get_details($att_id) {
 		return $this->model_shifts->get_shift_details($att_id);
 	}
 

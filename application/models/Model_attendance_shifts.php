@@ -28,7 +28,10 @@ class Model_attendance_shifts extends CI_Model {
 	public function current($user_id) {
 		$this->db->where('user_id', $user_id);
 		$this->db->where('loggedin', 1);
-		return $this->db->get($this->table)->row();
+		$query = $this->db->get($this->table);
+		if ($query->num_rows() < 1)
+			return false; 
+		return $query->row();
 	}
 
 
@@ -47,9 +50,15 @@ class Model_attendance_shifts extends CI_Model {
 	
 	public function delete($id) {
 		$this->db->where('id', $id);
-		if (!$this->db->delete($this->table))
-			return false;
-		return true;
+		$this->delete_details_of_shift($id);
+		$this->db->delete($this->table);
+		return;
+	}
+
+	private function delete_details_of_shift($id) {
+		$this->db->where('attendance_id', $id);
+		$this->db->delete('attendance_details');
+		return;
 	}
 
 	public function get_shift_details($att_id) {

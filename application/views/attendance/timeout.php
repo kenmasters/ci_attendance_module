@@ -41,7 +41,7 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="pwd">Note</label>
               <div class="col-sm-10"> 
-                <textarea name="timeout_note" class="form-control" rows="3"></textarea>
+                <textarea name="notes" class="form-control" rows="3"></textarea>
               </div>
             </div>
             <div class="form-group"> 
@@ -65,20 +65,26 @@
 
                 if (!$current_break) { ?>
                   <?php 
-                  echo form_open('attendance/breakstart'); 
+                  echo form_open(site_url('attendance/breakstart')); 
                   echo form_hidden('attendance_id', $attendance_current->id); 
                   ?>
                   <div class="col-sm-8">
-                  <select name="type" id="" class="form-control">
-                    <?php 
-                    if( isset($breaks)) {
-                      foreach($breaks as $break) {  ?>
-                      <option value="<?=$break->id?>"><?=$break->label;?></option>
-                    <?php 
-                      } 
-                    } 
-                    ?>
-                  </select>
+                    <div class="form-group">
+                      <select name="type" id="" class="form-control">
+                        <?php 
+                        if( isset($breaks)) {
+                          foreach($breaks as $break) {  ?>
+                          <option value="<?=$break->id?>"><?=$break->label;?></option>
+                        <?php 
+                          } 
+                        } 
+                        ?>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <textarea class="form-control" rows="2" name="notes" placeholder="Additional notes"></textarea>
+                    </div>
+                  
                   </div>
                   <div class="col-sm-4">
                     <?php echo form_submit('add-break', 'Start Break Time', ['class'=>'btn btn-default']); ?>
@@ -88,10 +94,13 @@
                 <?php 
                 } else { ?>
                   <div class="col-sm-12">
-                    <p>Status: On break (<?=$current_break->label?>)</p>
+                    <p>Status: On break (<?=$current_break->label?>) <small class="text-muted">- <?=$current_break->start_note;?></small></p>
                     <p>Started: <?=$current_break->start?></p>
                     <?php echo form_open('attendance/breakend'); ?>
                     <?php echo form_hidden('id', $current_break->id); ?>
+                    <div class="form-group">
+                      <textarea class="form-control" rows="2" name="notes" placeholder="Additional notes"></textarea>
+                    </div>
                     <?php echo form_submit('end-break', 'End Break Time', ['class'=>'btn btn-default']); ?>
                     <?php echo form_close(); ?>
                   </div>

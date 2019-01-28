@@ -24,7 +24,7 @@
         <div class="form-group">
           <label class="control-label col-sm-1" for="pwd">Note</label>
           <div class="col-sm-10"> 
-            <textarea name="timein_note" class="form-control" rows="3"></textarea>
+            <textarea name="notes" class="form-control" rows="3"></textarea>
           </div>
         </div>
         <div class="form-group"> 
