@@ -49,27 +49,26 @@ class Model_attendance extends CI_Model {
 
 	public function is_timein() {
 		return $this->model_shifts->current($this->user_id);	 
-		echo 1;
 	}
 
-	public function break_start() {
-		$att_id = $this->input->post('attendance_id');
-		$type_id = $this->input->post('type');
+	public function doAdd($type_id, $notes='') {
+		$att_id = $this->current()->id;
 		$data = [
 			'attendance_id' => $att_id,
 			'type_id' => $type_id,
-			'break_start_time' => date('H:i'),
+			'start' => date('H:i'),
+			'start_note' => $notes,
+			'status' => 1
 		];
-
 		$this->model_shift_details->insert($att_id, $data);
 	}
 
-	public function break_end() {
-		$id = $this->input->post('id');
+	public function doEnd($id, $notes='') {
 		$data = [
-			'break_end_time' => date('H:i'),
+			'end' => date('H:i'),
+			'end_note' => $notes,
+			'status' => 0
 		];
-
 		$this->model_shift_details->update($id, $data);
 	}
 
@@ -81,6 +80,14 @@ class Model_attendance extends CI_Model {
 		return $this->model_shifts->current($this->user_id);
 	}
 
-	
+	public function get_current_shift_details() {
+		$att_id = $this->current()->id;
+		return $this->model_shifts->get_shift_details($att_id);
+	}
+
+	public function current_break() {
+		$att_id = $this->current()->id;
+		return $this->model_shift_details->current($att_id);
+	}
 
 }

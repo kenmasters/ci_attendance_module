@@ -54,11 +54,18 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 
-$route['attendance/user/(:num)'] = 'attendance/user/$1';
 
-$route['attendance/timein'] = 'attendance/in';
-$route['attendance/timeout'] = 'attendance/out';
-$route['attendance/addbreak'] = 'attendance/breakStart';
-$route['attendance/endbreak'] = 'attendance/breakEnd';
+
+
+// $route['attendance/user/(:num)'] = 'attendance/user/$1';
+
+// // $route['attendance/timein'] = 'attendance/in';
+// $route['attendance/timeout'] = 'attendance/out';
+// $route['attendance/addbreak'] = 'attendance/breakStart';
+// $route['attendance/endbreak'] = 'attendance/breakEnd';
+
+
+
+
 
 

@@ -6,7 +6,7 @@
           <div class="panel-heading"><h4>Time Out</h4></div>
           <div class="panel-body">
         
-            <?php echo form_open('attendance/timeout', ['class'=>'form-horizontal']); ?>
+            <?php echo form_open('', ['class'=>'form-horizontal']); ?>
             <?php echo form_hidden('attendance_id', $attendance_current->id); ?>
             <div class="form-group">
               <label class="control-label col-sm-2" for="email">Time In</label>
@@ -61,18 +61,23 @@
           <div class="panel-body">
             <div class="form-group">
               <div class="row">
-                <?php 
-                if (!$on_break) { ?>
-                  <?php 
-                  echo form_open('attendance/addbreak'); 
-                  echo form_hidden('attendance_id', $attendance_current->id); 
+                <?php
 
+                if (!$current_break) { ?>
+                  <?php 
+                  echo form_open('attendance/breakstart'); 
+                  echo form_hidden('attendance_id', $attendance_current->id); 
                   ?>
                   <div class="col-sm-8">
                   <select name="type" id="" class="form-control">
-                    <option value="1">Launch</option>
-                    <option value="2">Coffee</option>
-                    <option value="3">Bathroom</option>
+                    <?php 
+                    if( isset($breaks)) {
+                      foreach($breaks as $break) {  ?>
+                      <option value="<?=$break->id?>"><?=$break->label;?></option>
+                    <?php 
+                      } 
+                    } 
+                    ?>
                   </select>
                   </div>
                   <div class="col-sm-4">
@@ -83,10 +88,10 @@
                 <?php 
                 } else { ?>
                   <div class="col-sm-12">
-                    <p>Status: On break (<?=$break_type?>)</p>
-                    <p>Started: <?=$break_start_time?></p>
-                    <?php echo form_open('attendance/endbreak'); ?>
-                    <?php echo form_hidden('id', $break_id); ?>
+                    <p>Status: On break (<?=$current_break->label?>)</p>
+                    <p>Started: <?=$current_break->start?></p>
+                    <?php echo form_open('attendance/breakend'); ?>
+                    <?php echo form_hidden('id', $current_break->id); ?>
                     <?php echo form_submit('end-break', 'End Break Time', ['class'=>'btn btn-default']); ?>
                     <?php echo form_close(); ?>
                   </div>
@@ -107,18 +112,17 @@
                   </thead>
                   <tbody>
                   <?php 
-                    if ($todays_break) {
-                      foreach($todays_break as $today) { ?> 
+                    if ($shift_details) {
+                      foreach($shift_details as $details) {   ?> 
                         <tr>
-                          <td><?=$today->break_start_time?></td>
-                          <td><?=$today->break_end_time?></td>
-                          <td><?=$today->type_id?></td>
+                          <td><?=$details->start?></td>
+                          <td><?=$details->end?></td>
+                          <td><?=$details->label?></td>
                         </tr>
                 <?php 
                       } 
                     } 
                 ?>
-                    
                   </tbody>
                 </table>
             </div>

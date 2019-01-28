@@ -33,20 +33,45 @@ class Model_attendance_shifts extends CI_Model {
 
 
 	public function insert($data) {
-		$this->db->insert($this->table, $data);
+		if (!$this->db->insert($this->table, $data))
+			return false;
+		return true;
 	}
 
 	public function update($id, $data) {
-		$this->db->update($this->table, $data, ['id' => $id]);
+		$this->db->where('id', $id);
+		if (!$this->db->update($this->table, $data))
+			return false;
+		return true;
 	}
 	
 	public function delete($id) {
 		$this->db->where('id', $id);
-		$this->db->delete($this->table);
+		if (!$this->db->delete($this->table))
+			return false;
+		return true;
 	}
 
 	public function byuser($id) {
 		return $this->search(['user_id'=>$id, 'loggedin'=>0])->get();
+	}
+
+	public function get_shift_details($att_id) {
+		$res = FALSE;
+		$this->db->select('
+			details.*,
+			break.label
+		');
+		$this->db->from('attendance_details as details');
+		$this->db->join('attendance_break_types as break', 'break.id = details.type_id');
+		$this->db->where('details.attendance_id', $att_id);
+		$this->db->order_by('details.id', 'ASC');
+		$query = $this->db->get();
+		if ($query->num_rows() < 1) {
+			return FALSE;	
+		}
+		
+		return $query->result();
 	}
 
 }

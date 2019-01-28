@@ -1,10 +1,12 @@
 <h3></h3>
-<pre>
+<!-- <pre>
   <?php
   print_r($user_shifts);
   ?>
-</pre>
+</pre> -->
 <div class="container">
+
+  <h3>User Attendance</h3>
   <div class="table-responsive">
     <table class="table table-condensed table-hover">
       <thead>

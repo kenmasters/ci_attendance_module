@@ -13,15 +13,13 @@ class Attendance extends CI_Controller {
 	}
 
 	public function index() {
-		
-
 		$this->load->view('attendance/common/header');
 		$this->load->view('attendance/common/footer');
 	}
 
 	public function in() {
 		if ($this->model_attendance->setUser($this->user)->is_timein()) {
-			redirect('attendance/timeout');
+			redirect('attendance/out');
 			exit(0);
 		}
 
@@ -30,7 +28,7 @@ class Attendance extends CI_Controller {
 		
 		if ($this->input->post('timein')) {
 			$this->model_attendance->setUser($this->user)->in();
-			redirect('attendance/timeout');
+			redirect('attendance/out');
 			exit(0);
 		}
 
@@ -42,63 +40,43 @@ class Attendance extends CI_Controller {
 	
 	public function out() {
 
+		$this->load->model('attendance/model_break', 'model_breaks');
+
 		if (!$this->model_attendance->setUser($this->user)->is_timein())
-			redirect('attendance/timein');
+			redirect('attendance/in');
 
 		$this->data['current_date'] = date('D, d M Y');
 		$this->data['current_time'] = date('H:i');
+		$this->data['breaks'] = $this->model_breaks->search(['status'=>1])->get();
 
-		$attendance_current = $this->model_attendance->setUser($this->user)->current();
 		
-		$this->data['attendance_current'] = $attendance_current;
-
-		// get todays break
-
-		$todays_break = $this->db
-						->where('attendance_id', $attendance_current->id)
-						->where('break_end_time > ', '00:00')
-						->order_by('id', 'DESC')
-						->get('attendance_details')->result();
-
-		// check if user has active break
-
-		$active_break = $this->db
-						->where('attendance_id', $attendance_current->id)
-						->where('break_end_time', '00:00')
-						->order_by('id', 'DESC')
-						->get('attendance_details')->row();
-		
-		$this->data['todays_break'] = $todays_break;
-		$this->data['on_break'] = false;
-
-		if ($active_break) {
-				$this->data['break_id'] = $active_break->id;
-				$this->data['on_break'] = true;
-				$this->data['break_start_time'] = $active_break->break_start_time;
-				$this->data['break_type'] = $active_break->type_id;
-		}
+		$this->data['attendance_current'] = $this->model_attendance->setUser($this->user)->current();
+		$this->data['shift_details'] = $this->model_attendance->setUser($this->user)->get_current_shift_details();
+		$this->data['current_break'] = $this->model_attendance->setUser($this->user)->current_break();
 		
 		if ($this->input->post('timeout')) {
 			$this->model_attendance->setUser($this->user)->out();
-			redirect('attendance/timein');
+			redirect('attendance/in');
 			exit(0);
 		}
 
 		$this->load->view('attendance/common/header');
 		$this->load->view('attendance/timeout', $this->data);
 		$this->load->view('attendance/common/footer');
-	
 	}
 
-
 	public function breakStart() {
-		$this->model_attendance->break_start();
+		$type_id = $this->input->post('type');
+		$notes = $this->input->post('notes');
+		$this->model_attendance->setUser($this->user)->doAdd($type_id, $notes);
 		redirect($this->agent->referrer());
 		exit(0);
 	}
 
 	public function breakEnd() {
-		$this->model_attendance->break_end();
+		$id = $this->input->post('id');
+		$notes = $this->input->post('notes');
+		$this->model_attendance->setUser($this->user)->doEnd($id, $notes);
 		redirect($this->agent->referrer());
 		exit(0);
 	}

@@ -4,7 +4,7 @@
       <div class="panel-heading"><h4>Time In</h4></div>
       <div class="panel-body">
 
-        <?php echo form_open('attendance/timein', ['class'=>'form-horizontal']); ?>
+        <?php echo form_open('', ['class'=>'form-horizontal']); ?>
         <div class="form-group">
           <label class="control-label col-sm-1" for="email">Date</label>
           <div class="col-sm-10">

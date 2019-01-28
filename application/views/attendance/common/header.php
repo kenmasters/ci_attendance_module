@@ -12,13 +12,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous">
-
+    <!-- Bootstrap Timepicker -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap-theme.min.css" integrity="sha384-jzngWsPS6op3fgRCDTESqrEJwRKck+CILhJVO5VvaAZCq8JYf8HsR/HPpBOOPZfR" crossorigin="anonymous">
 
 	<link rel="stylesheet" href="https://getbootstrap.com/docs/3.4/examples/dashboard/dashboard.css">
-	
-
 	<link rel="stylesheet" href="<?php echo site_url('assets/css/style.css'); ?>">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -42,14 +41,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	        </div>
 	        <div id="navbar" class="navbar-collapse collapse">
 	          <ul class="nav navbar-nav navbar-right">
-	            <li><a href="#">Time</a></li>
-	            <li><a href="#">Settings</a></li>
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage
+					<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="<?php echo site_url('admin/attendance/breaks'); ?>">Breaks</a></li>
+						<li><a href="<?php echo site_url('admin/attendance/shifts'); ?>">Shifts</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Attendance
+					<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="<?php echo site_url('attendance/in'); ?>">Time In/Out</a></li>
+					</ul>
+				</li>
 	            <li><a href="#">Profile</a></li>
 	            <li><a href="#">Help</a></li>
 	          </ul>
-	         <!--  <form class="navbar-form navbar-right">
-	            <input type="text" class="form-control" placeholder="Search...">
-	          </form> -->
 	        </div>
 	      </div>
 	    </nav>
