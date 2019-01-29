@@ -12,9 +12,9 @@ class Shifts extends CI_Controller {
 	public function index() {
 		$shifts = $this->model_shift->get();
 		$this->data['shifts'] = $shifts;
-		$this->load->view('attendance/common/header');
+		$this->load->view('admin/common/header');
 		$this->load->view('admin/attendance/shift/index', $this->data);
-		$this->load->view('attendance/common/footer');
+		$this->load->view('admin/common/footer');
 	}
 
 	public function add() {
@@ -33,9 +33,9 @@ class Shifts extends CI_Controller {
 				exit(0);
 			}
 		} else {
-			$this->load->view('attendance/common/header');
+			$this->load->view('admin/common/header');
 			$this->load->view('admin/attendance/shift/add', $this->data);
-			$this->load->view('attendance/common/footer');
+			$this->load->view('admin/common/footer');
 		}
 	}
 
@@ -58,9 +58,9 @@ class Shifts extends CI_Controller {
 			redirect($this->agent->referrer());
 			exit(0);
 		} else {
-			$this->load->view('attendance/common/header');
+			$this->load->view('admin/common/header');
 			$this->load->view('admin/attendance/shift/edit', $this->data);
-			$this->load->view('attendance/common/footer');
+			$this->load->view('admin/common/footer');
 		}
 	}
 

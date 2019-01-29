@@ -78,4 +78,6 @@ class Model_attendance_shifts extends CI_Model {
 		return $query->result();
 	}
 
+	
+
 }

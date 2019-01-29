@@ -1,12 +1,8 @@
 <h3></h3>
-<!-- <pre>
-  <?php
-  print_r($user_shifts);
-  ?>
-</pre> -->
 <div class="container">
 
   <h3>User Attendance</h3>
+  <?php $this->load->view('attendance/searchform'); ?>
   <div class="table-responsive">
     <table class="table table-condensed table-hover">
       <thead>

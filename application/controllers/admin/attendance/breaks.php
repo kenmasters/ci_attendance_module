@@ -16,9 +16,9 @@ class Breaks extends CI_Controller {
 		// exit(0);
 		$this->data['break_types'] = $break_types;
 
-		$this->load->view('attendance/common/header');
+		$this->load->view('admin/common/header');
 		$this->load->view('admin/attendance/break/index', $this->data);
-		$this->load->view('attendance/common/footer');
+		$this->load->view('admin/common/footer');
 
 	}
 
@@ -40,9 +40,9 @@ class Breaks extends CI_Controller {
 				exit(0);
 			}
 		} else {
-			$this->load->view('attendance/common/header');
+			$this->load->view('admin/common/header');
 			$this->load->view('admin/attendance/break/single', $this->data);
-			$this->load->view('attendance/common/footer');
+			$this->load->view('admin/common/footer');
 		}
 	}
 
@@ -62,9 +62,9 @@ class Breaks extends CI_Controller {
 				exit(0);
 			}
 		} else {
-			$this->load->view('attendance/common/header');
+			$this->load->view('admin/common/header');
 			$this->load->view('admin/attendance/break/single', $this->data);
-			$this->load->view('attendance/common/footer');
+			$this->load->view('admin/common/footer');
 		}
 	}
 

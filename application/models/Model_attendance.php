@@ -36,6 +36,12 @@ class Model_attendance extends CI_Model {
 			'timeout' => $datetime,
 			'loggedin' => 0,
 		];
+
+		// End current break when user logs out
+		if ($this->current_break()) {
+			$this->doEnd($this->current_break()->id);
+		}
+	
 		$this->model_shifts->update($att_id, $data);
 	}
 
@@ -80,6 +86,14 @@ class Model_attendance extends CI_Model {
 	public function current_break() {
 		$att_id = $this->current()->id;
 		return $this->model_shift_details->current($att_id);
+	}
+
+	
+
+
+	public function getUserAttendance ($params) {
+		$result = $this->model_shifts->search($params)->get();
+		return $result; 
 	}
 
 }

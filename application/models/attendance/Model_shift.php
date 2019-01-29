@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Model_shift extends CI_Model {
 
-	private $table = 'attendance_shift';
+	private $table = 'attendance_shift_types';
 	private $filters = [];
 
 	public function search($filters) {
