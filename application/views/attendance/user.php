@@ -1,6 +1,11 @@
 <h3></h3>
 <div class="container">
-
+  <?php if ($this->session->flashdata('err')['status']) { ?>
+  <div class="alert alert-success alert-dismissible">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Error!</strong> <?php echo $this->session->flashdata('err')['msg'];?>
+  </div>
+  <?php } ?>
   <h3>User Attendance</h3>
   <?php $this->load->view('attendance/searchform'); ?>
   <div class="table-responsive">
@@ -17,25 +22,32 @@
           </thead>
           <tbody>
             <?php
-
-              foreach ($user_shifts as $v) {
-                $timein = nice_date($v->timein, 'D, d M Y H:i');
-                $timeout = nice_date($v->timeout, 'D, d M Y H:i');
-                $timein_notes = $v->timein_note;
-                $timeout_notes = $v->timeout_note;
-                $duration_in_hours = (strtotime($v->timeout) - strtotime($v->timein)) / 3600;
-                $duration_in_hours = round($duration_in_hours, 2);
-                
-
-                echo "<tr>
-                        <td>$timein</td>
-                        <td>$timein_notes</td>
-                        <td>$timeout</td>
-                        <td>$timeout_notes</td>
-                        <td>$duration_in_hours</td>
-                        <td><a class='btn btn-default btn-sm' href='?attendance=".$v->id."'>View Details</a></td>
-                      </tr>";
+              if ($user_attendance_list) {
+                foreach ($user_attendance_list as $v) {
+                  $timein = nice_date(unix_to_human($v->timein), 'D, d M Y H:i');
+                  $timeout = nice_date(unix_to_human($v->timeout), 'D, d M Y H:i');
+                  $timein_notes = $v->timein_note;
+                  $timeout_notes = $v->timeout_note;
+                  $duration_in_hours = round($v->duration_in_hours, 2);
+                  ?>
+                 <tr class="<?=$v->id == $selected?'active':''?>">
+                    <td><?=$timein;?></td>
+                    <td><?=$timein_notes;?></td>
+                    <td><?=$timeout;?></td>
+                    <td><?=$timeout_notes;?></td>
+                    <td><?=$duration_in_hours;?></td>
+                    <td><a class='btn btn-default btn-xs <?=$v->id == $selected?'disabled':''?>' href='?attendance=<?=$v->id;?>'>View Details</a></td>
+                  </tr>
+                <?php
+                }
+              } else {
+              ?>
+              <tr>
+                <td colspan="6" class="text-center">No result found</td>
+              </tr>
+              <?php
               }
+              
 
             ?>
           </tbody>
@@ -60,27 +72,24 @@
                   </thead>
                   <tbody>
                     <?php
-
                       foreach ($attendance_details as $v) {
                         $label = $v->label;
-                        $start = nice_date($v->start, 'H:i');
+                        $start = unix_to_human($v->start);
                         $start_note = $v->start_note;
-                        $end = nice_date($v->end, 'H:i');;
+                        $end = unix_to_human($v->end);
                         $end_note = $v->end_note;
-                        $duration_in_min = (strtotime($end) - strtotime($start)) / 60;
-                        $duration_in_mins = round($duration_in_min, 2);
-
-
-                        echo "<tr>
-                                <td>$label</td>
-                                <td>$start</td>
-                                <td>$start_note</td>
-                                <td>$end</td>
-                                <td>$end_note</td>
-                                <td>$duration_in_mins</td>
-                              </tr>";
+                        $duration_in_mins = round($v->duration_in_mins, 2);
+                        ?>
+                        <tr>
+                          <td><?=$label;?></td>
+                          <td><?=$start;?></td>
+                          <td><?=$start_note;?></td>
+                          <td><?=$end;?></td>
+                          <td><?=$end_note;?>e</td>
+                          <td><?=$duration_in_mins;?></td>
+                        </tr>
+                        <?php
                       }
-
                     ?>
                   </tbody>
             </table>

@@ -7,8 +7,8 @@ class Model_attendance extends CI_Model {
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('model_attendance_shifts', 'model_shifts');
-		$this->load->model('model_attendance_details', 'model_shift_details');
+		$this->load->model('attendance/model_attendance_shifts', 'model_shifts');
+		$this->load->model('attendance/model_attendance_details', 'model_shift_details');
 	}
 
 	public function setUser($id) {
@@ -17,7 +17,7 @@ class Model_attendance extends CI_Model {
 	}
 
 	public function in($notes="") {
-		$datetime = date('Y-m-d H:i', now());
+		$datetime = time();
 		$data = [
 			'user_id' => $this->user_id,
 			'timein' => $datetime,
@@ -30,7 +30,7 @@ class Model_attendance extends CI_Model {
 
 	public function out($notes="") {
 		$att_id = $this->current()->id;
-		$datetime = date('Y-m-d H:i', now());
+		$datetime = time();
 		$data = [
 			'timeout_note' => $notes,
 			'timeout' => $datetime,
@@ -38,10 +38,11 @@ class Model_attendance extends CI_Model {
 		];
 
 		// End current break when user logs out
-		if ($this->current_break()) {
-			$this->doEnd($this->current_break()->id);
+		$current_break_id = $this->current_break()->id;
+		if ($current_break_id) {
+			$this->doEnd($current_break_id);
 		}
-	
+
 		$this->model_shifts->update($att_id, $data);
 	}
 
@@ -50,7 +51,7 @@ class Model_attendance extends CI_Model {
 		$data = [
 			'attendance_id' => $att_id,
 			'type_id' => $type_id,
-			'start' => date('H:i'),
+			'start' => now(),
 			'start_note' => $notes,
 			'status' => 1
 		];
@@ -59,7 +60,7 @@ class Model_attendance extends CI_Model {
 
 	public function doEnd($id, $notes='') {
 		$data = [
-			'end' => date('H:i'),
+			'end' => time(),
 			'end_note' => $notes,
 			'status' => 0
 		];
@@ -88,12 +89,9 @@ class Model_attendance extends CI_Model {
 		return $this->model_shift_details->current($att_id);
 	}
 
-	
-
-
-	public function getUserAttendance ($params) {
-		$result = $this->model_shifts->search($params)->get();
-		return $result; 
+	public function get_attendance_list($filters=[]) {
+		if (!empty($filters))
+			return $this->model_shifts->search($filters)->get_user_attendance_list($this->user_id);
+		return $this->model_shifts->get_user_attendance_list($this->user_id);
 	}
-
 }

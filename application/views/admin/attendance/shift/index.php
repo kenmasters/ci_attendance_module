@@ -1,6 +1,4 @@
 <h3></h3>
-
-
 <div class="container">
 	<?php if ($this->session->flashdata('shift_deleted') || $this->session->flashdata('shift_added')) { ?>
 	<div class="alert alert-success alert-dismissible">

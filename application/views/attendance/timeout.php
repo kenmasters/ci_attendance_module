@@ -11,7 +11,7 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="email">Time In</label>
               <div class="col-sm-10">
-                <label class="control-label"><?php echo nice_date($attendance_current->timein, 'D, d M Y H:i'); ?></label>
+                <label class="control-label"><?php echo nice_date(unix_to_human($attendance_current->timein),'D, d M Y H:i'); ?></label>
               </div>
             </div>
 
@@ -95,7 +95,7 @@
                 } else { ?>
                   <div class="col-sm-12">
                     <p>Status: On break (<?=$current_break->label?>) <small class="text-muted">- <?=$current_break->start_note;?></small></p>
-                    <p>Started: <?=$current_break->start?></p>
+                    <p>Started: <?=date('h:i A',$current_break->start);?></p>
                     <?php echo form_open('attendance/breakend'); ?>
                     <?php echo form_hidden('id', $current_break->id); ?>
                     <div class="form-group">
@@ -122,11 +122,11 @@
                   <tbody>
                   <?php 
                     if ($shift_details) {
-                      foreach($shift_details as $details) {   ?> 
+                      foreach($shift_details as $v) { if (!$v->end) continue; ?> 
                         <tr>
-                          <td><?=$details->start?></td>
-                          <td><?=$details->end?></td>
-                          <td><?=$details->label?></td>
+                          <td><?=date('h:i A', $v->start);?></td>
+                          <td><?=date('h:i A', $v->end);?></td>
+                          <td><?=$v->label?></td>
                         </tr>
                 <?php 
                       } 

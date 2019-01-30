@@ -9,7 +9,7 @@ class Attendance extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('model_attendance');
+		$this->load->model('attendance/model_attendance');
 
 		$this->data['userid'] = $this->userid;
 	}
@@ -84,28 +84,40 @@ class Attendance extends CI_Controller {
 	}
 
 	public function user($uid) {
-		show_404();
-		$this->data['user_shifts'] = $this->model_attendance->setUser($uid)->get();
-		$att_id = $this->input->get('attendance');
+		$user_attendance = $this->model_attendance->setUser($uid);
+		$min = $this->input->get('min');
+		$max = $this->input->get('max');
+		$filters = [];
+
+		if ($min && $max && ($min>$max)) {
+			$err = [
+					'status' => 1,
+					'msg' => 'Max date should not be lower than Min date'
+			];
+			$this->session->set_flashdata('err', $err);
+			redirect($this->agent->referrer());
+			exit(0);
+		}
+
+		if ($min) {
+			$filters['timein >='] = strtotime($min);
+		}
+
+		if ($max){
+			$filters['timein <='] = strtotime($max);
+		}
+
+		$user_attendance_list = $user_attendance->get_attendance_list($filters);
 		
-		$this->getUserAttendance();
+		$this->data['user_attendance_list'] = $user_attendance_list;
+		$att_id = $this->input->get('attendance');
+		$this->data['selected'] = $att_id;
 		if (isset($att_id)) {
-			$attendance_details = $this->model_attendance->get_details($att_id);
-			$this->data['attendance_details'] = $attendance_details;
-			// echo '<pre>';
-			// print_r($attendance_details);
-			// echo '</pre>';
+			$this->data['attendance_details'] = $this->model_attendance->get_details($att_id);
 		} 
 		
 		$this->load->view('attendance/common/header', ['userid'=>$this->userid]);
 		$this->load->view('attendance/user', $this->data);
 		$this->load->view('attendance/common/footer');
 	}
-
-	public function getUserAttendance() {
-		$date = $this->input->get('date');
-		echo $date;
-	}
-
-
 }

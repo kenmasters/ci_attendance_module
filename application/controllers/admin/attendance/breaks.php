@@ -10,16 +10,11 @@ class Breaks extends CI_Controller {
 	}
 
 	public function index() {
-
 		$break_types = $this->model_break->get();
-		// echo json_encode($break_types);
-		// exit(0);
 		$this->data['break_types'] = $break_types;
-
 		$this->load->view('admin/common/header');
 		$this->load->view('admin/attendance/break/index', $this->data);
 		$this->load->view('admin/common/footer');
-
 	}
 
 	public function add() {
@@ -29,7 +24,6 @@ class Breaks extends CI_Controller {
 		$this->data['break'] = $break;
 		$this->form_validation->set_rules('label', 'Label', 'required');
 		if ($this->form_validation->run() !== FALSE) {
-			var_dump($this->input->post());
 			$data = [
 				'label' => $this->input->post('label'),
 				'status' => $this->input->post('status')?:0,

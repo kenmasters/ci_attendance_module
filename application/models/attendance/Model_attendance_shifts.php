@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Model_attendance_shifts extends CI_Model {
 
-	private $table = 'attendance_shifts';
+	private $table = 'attendance';
 	private $filters = [];
 
 	public function search($search='') {
@@ -62,10 +62,10 @@ class Model_attendance_shifts extends CI_Model {
 	}
 
 	public function get_shift_details($att_id) {
-		$res = false;
 		$this->db->select('
 			details.*,
-			break.label
+			break.label,
+			TIMESTAMPDIFF(SECOND, FROM_UNIXTIME(start),FROM_UNIXTIME(end))/60 AS duration_in_mins
 		');
 		$this->db->from('attendance_details as details');
 		$this->db->join('attendance_break_types as break', 'break.id = details.type_id');
@@ -78,6 +78,20 @@ class Model_attendance_shifts extends CI_Model {
 		return $query->result();
 	}
 
-	
+	public function get_user_attendance_list($user_id) {
+		$this->db->select('
+			att.*,
+			TIMESTAMPDIFF(SECOND, timein,timeout)/3600 AS duration_in_hours
+		');
+		$this->db->from("{$this->table} as att");
+		$this->db->where('loggedin', 0);
+		$this->db->where('user_id', $user_id);
+		$this->db->where($this->filters);
+		$this->db->order_by('id', 'ASC');
+		$query = $this->db->get();
+		if ($query->num_rows() < 1)
+			return false;
+		return $query->result();
+	}
 
 }
