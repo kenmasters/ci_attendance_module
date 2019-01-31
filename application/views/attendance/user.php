@@ -6,7 +6,7 @@
     <strong>Error!</strong> <?php echo $this->session->flashdata('err')['msg'];?>
   </div>
   <?php } ?>
-  <h3>User Attendance</h3>
+  <h3>My Attendance Records</h3>
   <?php $this->load->view('attendance/searchform'); ?>
   <div class="table-responsive">
     <table class="table table-condensed table-hover">
