@@ -53,10 +53,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Attendance
 					<span class="caret"></span></a>
 					<ul class="dropdown-menu">
+						<li><a href="<?php echo site_url('attendance/viewMyAttendanceRecord'); ?>">My Records</a></li>
 						<li><a href="<?php echo site_url('attendance/in'); ?>">Time In/Out</a></li>
 					</ul>
 				</li>
-	            <li><a href="<?php echo site_url("attendance/user/{$userid}"); ?>">My Attendance</a></li>
 	            <li><a href="<?php echo site_url("settings"); ?>">Settings</a></li>
 	          </ul>
 	        </div>
