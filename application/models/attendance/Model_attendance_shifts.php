@@ -22,7 +22,14 @@ class Model_attendance_shifts extends CI_Model {
 		if ($this->filters) {
 			$this->db->where($this->filters);
 		}
-		return $this->db->get($this->table)->result();
+		$query = $this->db->get($this->table);
+		$num_rows = $query->num_rows();
+		if ($num_rows > 1) {
+			return $query->result();
+		} elseif ($num_rows == 1) {
+			return $query->row();
+		}
+		return false;
 	}
 
 	public function current($user_id) {

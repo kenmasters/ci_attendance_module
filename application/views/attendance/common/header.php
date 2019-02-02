@@ -18,6 +18,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap-theme.min.css" integrity="sha384-jzngWsPS6op3fgRCDTESqrEJwRKck+CILhJVO5VvaAZCq8JYf8HsR/HPpBOOPZfR" crossorigin="anonymous">
 
 	<link rel="stylesheet" href="https://getbootstrap.com/docs/3.4/examples/dashboard/dashboard.css">
+
+
 	<link rel="stylesheet" href="<?php echo site_url('assets/css/style.css'); ?>">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -42,18 +44,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	        <div id="navbar" class="navbar-collapse collapse">
 	          <ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage
-					<span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="<?php echo site_url('admin/attendance/breaks'); ?>">Breaks</a></li>
-						<li><a href="<?php echo site_url('admin/attendance/shifts'); ?>">Shifts</a></li>
-					</ul>
-				</li>
-				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Attendance
 					<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="<?php echo site_url('attendance/viewMyAttendanceRecord'); ?>">My Records</a></li>
+						<li><a href="<?php echo site_url('attendance/viewAttendance'); ?>">My Records</a></li>
 						<li><a href="<?php echo site_url('attendance/in'); ?>">Time In/Out</a></li>
 					</ul>
 				</li>

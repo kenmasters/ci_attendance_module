@@ -83,7 +83,7 @@ class Attendance extends CI_Controller {
 			$this->_redirect($this->agent->referrer());
 	}
 
-	public function viewMyAttendanceRecord() {
+	public function viewAttendance() {
 		$user_attendance = $this->model_attendance->setUser($this->userid);
 		$min = $this->input->get('min');
 		$max = $this->input->get('max');

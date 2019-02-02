@@ -54,10 +54,14 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 
+// Edit attendance of specified user
+$route['admin/users/(:num)/editRecord/(:num)'] = 'admin/attendance/attendance/editRecord/$1/$2';
+// List all attendance of specified user
+$route['admin/users/(:num)/viewRecords'] = 'admin/attendance/listUserAttendance/$1';
 
-
-
-// $route['attendance/user/(:num)'] = 'attendance/user/$1';
+$route['admin/attendance'] = 'admin/attendance';
+$route['admin/users'] = 'admin/attendance/get_users';
+// $route['admin/attendance/users'] = 'admin/attendance/attendance/user/$1';
 
 // // $route['attendance/timein'] = 'attendance/in';
 // $route['attendance/timeout'] = 'attendance/out';

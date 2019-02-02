@@ -17,6 +17,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap-theme.min.css" integrity="sha384-jzngWsPS6op3fgRCDTESqrEJwRKck+CILhJVO5VvaAZCq8JYf8HsR/HPpBOOPZfR" crossorigin="anonymous">
 
+	<!-- Datatables -->
+	<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/> -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css" />
+	
 	<link rel="stylesheet" href="https://getbootstrap.com/docs/3.4/examples/dashboard/dashboard.css">
 	<link rel="stylesheet" href="<?php echo site_url('assets/css/style.css'); ?>">
 
@@ -45,6 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage
 					<span class="caret"></span></a>
 					<ul class="dropdown-menu">
+						<li><a href="<?php echo site_url('admin/attendance/'); ?>">Attendance</a></li>
 						<li><a href="<?php echo site_url('admin/attendance/breaks'); ?>">Breaks</a></li>
 						<li><a href="<?php echo site_url('admin/attendance/shifts'); ?>">Shifts</a></li>
 					</ul>

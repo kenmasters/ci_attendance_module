@@ -1,4 +1,7 @@
-jQuery(document).ready(function() {
+jQuery(document).ready(function($) {
+	
+	const users_api_url = location.protocol + '//' + location.hostname + '/admin/users';
+
 	$('#dtstart, #dtend').datetimepicker({
 		format: 'LT'
 	});
@@ -6,7 +9,13 @@ jQuery(document).ready(function() {
 	$('#minDate, #maxDate').datetimepicker({
 		format: 'L'
 	});
-	
+
+	$('#timein, #timeout').datetimepicker({
+		format: ''
+	});
+
+
+
 	setTimeout(function(){
 	    if( $('.alert-dismissible').is(':visible') ) 
 	      $(".alert-dismissible").fadeOut(1000);
@@ -20,5 +29,13 @@ jQuery(document).ready(function() {
 	
 	// Un-disable form fields when page loads, in case they click back after submission
 	$( "form" ).find( ":input" ).prop( "disabled", false );
+
+	
+
+    $('#users-table').DataTable({
+		"processing": true,
+        "serverSide": true,
+        "ajax": users_api_url,
+    });
 
 });
