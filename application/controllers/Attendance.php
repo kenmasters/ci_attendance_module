@@ -26,17 +26,16 @@ class Attendance extends CI_Controller {
 	}
 
 	public function in() {
-		
-		if ($this->model_attendance->setUser($this->userid)->current()) {
+		$attendance = $this->model_attendance->setUser($this->userid);
+		if ($attendance->current())
 			$this->_redirect('attendance/out');
-		}
-
+	
 		$this->data['current_date'] = date('D, d M Y');
 		$this->data['current_time'] = date('H:i');
 		
 		if ($this->input->post('timein')) {
 			$notes = $this->input->post('notes');
-			$u_attendance = $this->model_attendance->setUser($this->userid)->in($notes);
+			$u_attendance = $attendance->in($notes);
 			$this->_redirect('attendance/out');
 		} else {
 			$this->load->view('attendance/common/header', ['userid'=>$this->userid]);
@@ -47,26 +46,27 @@ class Attendance extends CI_Controller {
 	
 	public function out() {
 		$this->load->model('attendance/model_break', 'model_breaks');
-		if (!$this->model_attendance->setUser($this->userid)->current())
+		$attendance = $this->model_attendance->setUser($this->userid);
+		if (!$attendance->current())
 			$this->_redirect('attendance/in');
 
 		$this->data['current_date'] = date('D, d M Y');
 		$this->data['current_time'] = date('H:i');
 		$this->data['breaks'] = $this->model_breaks->search(['status'=>1])->get();
-		$this->data['attendance_current'] = $this->model_attendance->setUser($this->userid)->current();
-		$this->data['shift_details'] = $this->model_attendance->setUser($this->userid)->get_current_shift_details();
-		$this->data['current_break'] = $this->model_attendance->setUser($this->userid)->current_break();
+
+		$this->data['attendance_current'] = $attendance->current();
+		$this->data['shift_details'] = $attendance->get_current_shift_details();
+		$this->data['current_break'] = $attendance->current_break();
 		
 		if ($this->input->post('timeout')) {
 			$notes = $this->input->post('notes');
-			$this->model_attendance->setUser($this->userid)->out($notes);
+			$attendance->out($notes);
 			$this->_redirect(site_url('attendance/in'));
 		} else {
 			$this->load->view('attendance/common/header', ['userid'=>$this->userid]);
 			$this->load->view('attendance/timeout', $this->data);
 			$this->load->view('attendance/common/footer');
 		}
-		
 	}
 
 	public function breakStart() {

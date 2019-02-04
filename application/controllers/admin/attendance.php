@@ -12,19 +12,6 @@ class Attendance extends CI_Controller {
 		$this->load->model('attendance/model_user', 'model_users');
 	}
 
-	private function _dbseed() {
-		include APPPATH.'/third_party/faker/autoload.php';
-		// $this->db->truncate('users');
-		$faker = Faker\Factory::create();
-		for($i=0; $i<500; $i++) {
-			$fake_users[] = [
-				'first_name' => $faker->firstName,
-				'last_name' => $faker->lastName,
-			];
-		}
-		$this->db->insert_batch('users', $fake_users);
-	}
-
 	public function index() {
 		$this->data['users'] = [];
 		$this->load->view('admin/common/header');

@@ -18,6 +18,8 @@ class Model_user extends CI_Model {
         parent::__construct();
     }
 
+    
+
     private function _get_query()
     {
         $this->db->from($this->table);

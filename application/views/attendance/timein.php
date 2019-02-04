@@ -1,4 +1,3 @@
-<h3></h3>
 <div class="container"> 
     <div class="panel panel-default">
       <div class="panel-heading"><h4>Time In</h4></div>
@@ -35,6 +34,4 @@
       <?php echo form_close(); ?>
       </div>
     </div>
-
-    
 </div>
