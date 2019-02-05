@@ -5,41 +5,52 @@ class Model_user extends CI_Model {
 
     private $table = 'users';
 
+    private $filters = [];
+
     // set column field database for datatable orderable
-    var $column_order = array('id', 'last_name');
+    private $column_order = array('id', 'last_name');
 
     //set column field database for datatable searchable
-    var $column_search = array('first_name', 'last_name');  
+    private $column_search = array('first_name', 'last_name');  
 
     // default order 
-    var $order = array('id' => 'asc'); 
+    private $order = array('id' => 'asc'); 
 
     public function __construct() {
         parent::__construct();
     }
 
+    public function search($search) {
+    	if (is_array($search)) {
+	    	foreach ($search as $key => $value) {
+	    		$this->filters[$key] = $value;
+	    	}
+    	}
+    	return $this;
+    }
     
 
     private function _get_query()
     {
         $this->db->from($this->table);
+        
         $i = 0;
         foreach ($this->column_search as $emp) // loop column 
         {
-			if(isset($_GET['search']['value']) && !empty($_GET['search']['value'])){
-			$_GET['search']['value'] = $_GET['search']['value'];
+			if(isset($this->filters['search']['value']) && !empty($this->filters['search']['value'])){
+			$this->filters['search']['value'] = $this->filters['search']['value'];
 		} else
-			$_GET['search']['value'] = '';
-		if($_GET['search']['value']) // if datatable send POST for search
+			$this->filters['search']['value'] = '';
+		if($this->filters['search']['value']) // if datatable send POST for search
 		{
 			if($i===0) // first loop
 			{
 				$this->db->group_start();
-				$this->db->like($emp, $_GET['search']['value']);
+				$this->db->like($emp, $this->filters['search']['value']);
 			}
 			else
 			{
-				$this->db->or_like($emp, $_GET['search']['value']);
+				$this->db->or_like($emp, $this->filters['search']['value']);
 			}
 
 			if(count($this->column_search) - 1 == $i) //last loop
@@ -48,8 +59,8 @@ class Model_user extends CI_Model {
 		$i++;
 		}
 		
-		if (isset($_GET['order'])) { // here order processing
-			$this->db->order_by($this->column_order[$_GET['order']['0']['column']], $_GET['order']['0']['dir']);
+		if (isset($this->filters['order'])) { // here order processing
+			$this->db->order_by($this->column_order[$this->filters['order']['0']['column']], $this->filters['order']['0']['dir']);
 		} else if (isset($this->order)) {
 			$order = $this->order;
 			$this->db->order_by(key($order), $order[key($order)]);
@@ -64,12 +75,12 @@ class Model_user extends CI_Model {
 
     function get_users() {
         $this->_get_query();
-		if ( isset($_GET['start']) && $_GET['length'] != -1 ) {
-			$_GET['start']	= intval($_GET['start']);
-			$_GET['length']	= intval($_GET['length']);
+		if ( isset($this->filters['start']) && $this->filters['length'] != -1 ) {
+			$this->filters['start']	= intval($this->filters['start']);
+			$this->filters['length']	= intval($this->filters['length']);
 		}
 
-        $this->db->limit($_GET['length'], $_GET['start']);
+        $this->db->limit($this->filters['length'], $this->filters['start']);
         $query = $this->db->get();
         return $query->result();
     }

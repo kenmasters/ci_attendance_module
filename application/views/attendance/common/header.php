@@ -42,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<li><a href="<?php echo site_url('attendance/in'); ?>">Time In/Out</a></li>
 					</ul>
 				</li>
-	            <li><a href="<?php echo site_url("settings"); ?>">Settings</a></li>
+	            <li><a href="#">Settings</a></li>
 	          </ul>
 	        </div>
 	      </div>

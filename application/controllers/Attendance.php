@@ -100,24 +100,26 @@ class Attendance extends CI_Controller {
 		}
 
 		if ($min) {
-			$filters['timein >='] = strtotime($min);
+			$min_date = $min.' 00:00:00';
+			$filters['timein >='] = strtotime($min_date);
 		}
 
 		if ($max){
-			$filters['timein <='] = strtotime($max);
+			$max_date = $max.' 23:59:59';
+			$filters['timeout <='] = strtotime($max_date);
 		}
 
 		$user_attendance_list = $user_attendance->get_attendance_list($filters);
 		
 		$this->data['user_attendance_list'] = $user_attendance_list;
-		$att_id = $this->input->get('attendance');
+		$att_id = $this->input->get('id');
 		$this->data['selected'] = $att_id;
 		if (isset($att_id)) {
 			$this->data['attendance_details'] = $this->model_attendance->get_details($att_id);
 		} 
 		
 		$this->load->view('attendance/common/header', ['userid'=>$this->userid]);
-		$this->load->view('attendance/user', $this->data);
+		$this->load->view('attendance/userAttendance', $this->data);
 		$this->load->view('attendance/common/footer');
 	}
 }

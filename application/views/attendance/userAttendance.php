@@ -22,7 +22,7 @@
           </thead>
           <tbody>
             <?php
-              if ($user_attendance_list) {
+              if (isset($user_attendance_list) && $user_attendance_list) {
                 foreach ($user_attendance_list as $v) {
                   $timein = nice_date(unix_to_human($v->timein), 'D, d M Y H:i');
                   $timeout = nice_date(unix_to_human($v->timeout), 'D, d M Y H:i');
@@ -36,7 +36,7 @@
                     <td><?=$timeout;?></td>
                     <td><?=$timeout_notes;?></td>
                     <td><?=$duration_in_hours;?></td>
-                    <td><a class='btn btn-default btn-xs <?=$v->id == $selected?'disabled':''?>' href='?attendance=<?=$v->id;?>'>View Details</a></td>
+                    <td><a class='btn btn-default btn-xs <?=$v->id == $selected?'disabled':''?>' href='?id=<?=$v->id;?>'>View Details</a></td>
                   </tr>
                 <?php
                 }

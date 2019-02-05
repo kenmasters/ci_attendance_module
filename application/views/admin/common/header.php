@@ -17,8 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" href="<?php echo site_url('assets/css/bootstrap-datetimepicker.min.css'); ?>">
 
 	<!-- Datatables -->
-	<link rel="stylesheet" href="<?php echo site_url('assets/plugins/datatables/datatables.min.css'); ?>" />
-	
+	<link rel="stylesheet" href="<?php echo site_url('assets/plugins/datatables/DataTables-1.10.18/css/dataTables.bootstrap.min.css'); ?>" />
    
 	<link rel="stylesheet" href="<?php echo site_url('assets/css/dashboard.css'); ?>">
 	<link rel="stylesheet" href="<?php echo site_url('assets/css/style.css'); ?>">
@@ -29,6 +28,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <script src="<?php echo site_url('assets/js/html5shiv.min.js'); ?>"></script>
       <script src="<?php echo site_url('assets/js/respond.min.js'); ?>"></script>
     <![endif]-->
+
+    <script src="<?php echo site_url('assets/js/jquery.min.js'); ?>"></script>
+    <script src="<?php echo site_url('assets/plugins/bootstrap/js/bootstrap.min.js'); ?>"></script>
+    <script src="<?php echo site_url('assets/js/moment.min.js'); ?>"></script>
+    <script src="<?php echo site_url('assets/js/bootstrap-datetimepicker.min.js'); ?>"></script>
+    <script src="<?php echo site_url('assets/plugins/datatables/datatables.min.js'); ?>"></script>
+    <script src="<?php echo site_url('assets/plugins/datatables/DataTables-1.10.18/js/dataTables.bootstrap.min.js'); ?>"></script>
+    <script src="<?php echo site_url('assets/js/script.js'); ?>"></script>
   </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -53,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<li><a href="<?php echo site_url('admin/shifts'); ?>">Shifts</a></li>
 					</ul>
 				</li>
-	            <li><a href="<?php echo site_url("settings"); ?>">Settings</a></li>
+	            <li><a href="#">Settings</a></li>
 	          </ul>
 	        </div>
 	      </div>

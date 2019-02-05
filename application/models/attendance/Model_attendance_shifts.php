@@ -69,36 +69,41 @@ class Model_attendance_shifts extends CI_Model {
 	}
 
 	public function get_shift_details($att_id) {
+		$result = [];
 		$this->db->select('
 			details.*,
-			break.label,
-			TIMESTAMPDIFF(SECOND, FROM_UNIXTIME(start),FROM_UNIXTIME(end))/60 AS duration_in_mins
+			break.label
 		');
 		$this->db->from('attendance_details as details');
 		$this->db->join('attendance_break_types as break', 'break.id = details.type_id');
 		$this->db->where('details.attendance_id', $att_id);
 		$this->db->order_by('details.id', 'ASC');
 		$query = $this->db->get();
-		if ($query->num_rows() < 1) {
-			return false;	
+		if ($query->num_rows() < 1 ) return false;
+		$resource = $query->result_id;
+		while ($row = @mysqli_fetch_object($resource)) {
+			$row->duration_in_mins = ($row->end - $row->start) / 60;
+			$result[$row->id] = $row;
 		}
-		return $query->result();
+		return $result;
 	}
 
 	public function get_user_attendance_list($user_id) {
-		$this->db->select('
-			att.*,
-			TIMESTAMPDIFF(SECOND, timein,timeout)/3600 AS duration_in_hours
-		');
-		$this->db->from("{$this->table} as att");
+		$result = [];
 		$this->db->where('loggedin', 0);
 		$this->db->where('user_id', $user_id);
-		$this->db->where($this->filters);
+		if ($this->filters) {
+			$this->db->where($this->filters);
+		}
 		$this->db->order_by('id', 'ASC');
-		$query = $this->db->get();
-		if ($query->num_rows() < 1)
-			return false;
-		return $query->result();
+		$query = $this->db->get($this->table);
+		if ($query->num_rows() < 1) return false;
+		$resource = $query->result_id;
+		while ($row = @mysqli_fetch_object($resource)) {
+			$row->duration_in_hours = ($row->timeout - $row->timein) / 3600;
+			$result[$row->id] = $row;
+		}
+		return $result;
 	}
 
 }

@@ -12,3 +12,19 @@
 		</tbody>
 	</table>
 </div>
+
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		$('#users-table').DataTable( {
+		    'processing': true,
+		    'serverSide': true,
+		    'ajax': {
+		        'url': '<?=site_url('admin/attendance/get_users')?>',
+		        'type': 'GET'
+		    },
+		    'columnDefs': [
+		    	{'targets': 2, 'orderable': false}
+		    ]
+		} );
+	});
+</script>>
