@@ -52,17 +52,6 @@ class Attendance extends CI_Controller {
 		exit(0);
 	}
 
-	public function user($uid) {
-		$attendance = $this->model_attendance_shifts->search(['user_id'=>$uid])->get();
-		if (!$attendance) show_404();
-
-		echo 'view/search/edit  attendance of user' . $uid;
-		$this->data['uid'] = $uid;
-		$this->load->view('admin/common/header');
-		$this->load->view('admin/attendance/viewUserAttendance', $this->data);
-		$this->load->view('admin/common/footer');
-	}
-
 	public function editRecord($uid, $id) {
 		$attendance = $this->model_attendance_shifts->search(['user_id'=>$uid,'id'=>$id])->get();
 		if (!$attendance) show_404();
